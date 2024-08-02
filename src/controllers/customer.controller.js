@@ -161,6 +161,9 @@ const updateCustomerById = async (req, res, next) => {
         updates[key] = req.body[key];
       }
     }
+    if (!customer) {
+      throw createError(404, "Customer with this ID does't exist!");
+    }
     const image = req.file;
     if (image) {
       if (image.size > maxFileSize) {

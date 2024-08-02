@@ -19,7 +19,7 @@ const fileFilter = async (req, file, cb) => {
   const id = req.params.id;
   const { customerID, nid, phone } = req.body;
   const extensionName = path.extname(file.originalname);
-  // const customer = await findWithCustomer_Id(id);
+  const customer = await Customer.findById(id);
 
   if (req.method == 'POST') {
     const customerExists = await Customer.exists({
@@ -29,9 +29,9 @@ const fileFilter = async (req, file, cb) => {
       return cb(createError(400, 'Failed to uploading file! The customer already exists'));
     }
   }
-  // if (!customer) {
-  //   return cb(createError(400, 'Failed to uploading file! The customer does not exist'));
-  // }
+  if (!customer) {
+    return cb(createError(400, 'Failed to uploading file! The customer does not exist'));
+  }
 
   if (!allowedFileTypes.includes(extensionName.substring(1))) {
     return cb(createError(400, 'Invalid file type! Only allow for (.jpeg .jpg .png)'));

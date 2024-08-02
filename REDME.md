@@ -10,7 +10,7 @@ nid: ~string~,
 phone: ,
 customerID: ,
 address: ,
-customerImage: ~image -- .jpg, .png, .jpeg~
+customerImage: image -- .jpg, .png, .jpeg~
 }
 
 Read

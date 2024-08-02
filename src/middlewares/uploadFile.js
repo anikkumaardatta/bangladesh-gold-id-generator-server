@@ -19,7 +19,7 @@ const fileFilter = async (req, file, cb) => {
   const id = req.params.id;
   const { customerID, nid, phone } = req.body;
   const extensionName = path.extname(file.originalname);
-  const customer = await findWithCustomer_Id(id);
+  // const customer = await findWithCustomer_Id(id);
 
   if (req.method == 'POST') {
     const customerExists = await Customer.exists({

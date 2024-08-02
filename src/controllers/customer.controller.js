@@ -151,7 +151,8 @@ const updateCustomerById = async (req, res, next) => {
   try {
     const id = req.params.id;
     const updateOptions = { new: true, runValidators: true, context: 'query' };
-    const customer = await findWithCustomer_Id(id);
+
+    const customer = await Customer.findById(id);
 
     let updates = {};
 

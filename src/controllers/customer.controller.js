@@ -1,9 +1,8 @@
 const createError = require('http-errors');
-const { successResponse, errorResponse } = require('./response.controller');
+const { successResponse } = require('./response.controller');
 const Customer = require('../models/customer.model');
 const { findWithCustomer_Id } = require('../services/finding.services');
 const { deleteImage } = require('../helper/deleteImage');
-const runValidation = require('../validators');
 const { maxFileSize } = require('../secret');
 
 const createCustomerId = async (req, res, next) => {
@@ -77,7 +76,7 @@ const getCustomers = async (req, res, next) => {
     const [customers, count] = await Promise.all([
       Customer.find(selectedFilter)
 
-        .sort({ customerID: 1 })
+        // .sort({ customerID: 1 })
         .collation({ locale: 'en_US', numericOrdering: true })
 
         .limit(limit)
@@ -159,6 +158,8 @@ const updateCustomerById = async (req, res, next) => {
     for (let key in req.body) {
       if (['name', 'shopName', 'customerID', 'nid', 'phone', 'address', 'message'].includes(key)) {
         updates[key] = req.body[key];
+      } else {
+        throw createError(400, 'Invalid field');
       }
     }
     if (!customer) {
@@ -175,9 +176,9 @@ const updateCustomerById = async (req, res, next) => {
       updates.imageUrl = `/images/customers/${image.filename}`;
     }
 
-    const updateCustomer = await Customer.findByIdAndUpdate(id, updates, updateOptions);
+    const updatedCustomer = await Customer.findByIdAndUpdate(id, updates, updateOptions);
 
-    if (!updateCustomer) {
+    if (!updatedCustomer) {
       throw createError(404, "Customer with this ID does't exist!");
     }
 
@@ -185,7 +186,7 @@ const updateCustomerById = async (req, res, next) => {
       statusCode: 200,
       message: 'Customer updated successfully!',
       payload: {
-        updateCustomer: updateCustomer,
+        updatedCustomer: updatedCustomer,
       },
     });
   } catch (error) {

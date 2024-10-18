@@ -20,7 +20,6 @@ const customerSchema = new Schema(
     customerID: {
       type: String,
       required: [true, 'Customer ID is required!'],
-      unique: true,
     },
     imageUrl: {
       type: String,
@@ -31,8 +30,8 @@ const customerSchema = new Schema(
       type: String,
       required: [true, 'NID is required!'],
       // unique: true,
-      minLength: [10, 'Invalid NID'],
-      maxLength: [17, 'Invalid NID'],
+      // minLength: [10, 'Invalid NIDAA'],
+      // maxLength: [17, 'Invalid NIDsss'],
     },
     phone: {
       type: String,

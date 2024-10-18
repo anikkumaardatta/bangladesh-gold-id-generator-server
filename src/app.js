@@ -1,16 +1,17 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const cors = require("cors");
-const morgan = require("morgan");
-const createError = require("http-errors");
-const xssClean = require("xss-clean");
-const { errorResponse } = require("./controllers/response.controller");
-const customerRouter = require("./routes/customerRouter");
-const bodyParser = require("body-parser");
+const cors = require('cors');
+const morgan = require('morgan');
+const createError = require('http-errors');
+const xssClean = require('xss-clean');
+const { errorResponse } = require('./controllers/response.controller');
+const customerRouter = require('./routes/customerRouter');
+const bodyParser = require('body-parser');
+const { status } = require('express/lib/response');
 
 //middleware
 app.use(cors());
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 app.use(xssClean());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -20,24 +21,24 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 // routes definition
-app.use("/api/customers", customerRouter)
+app.use('/api/customers', customerRouter);
 
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
   res.status(200).send({
-    message: "Welcome to Bangladesh Gold ID Card making system API",
+    status: 200,
+    message: 'BDGIDS server is running successfully.',
   });
 });
-app.get("/api/customers", (req, res) => {
-    res.status(200).send({
-      message: "Customers info returned successfully.",
-    });
+app.get('/api/customers', (req, res) => {
+  res.status(200).send({
+    message: 'Customers info returned successfully.',
   });
+});
 
 // Client Error Handling==========!!!!!!!
 app.use((req, res, next) => {
-  next(createError(404, "Route not found!"));
+  next(createError(404, 'Route not found!'));
 });
 // Server Error Handling==========!!!!!!! -> all the errors handle from here.
 app.use((err, req, res, next) => {

@@ -3,7 +3,6 @@ const path = require('path');
 const createError = require('http-errors');
 const { uploadDirectory, maxFileSize, allowedFileTypes } = require('../secret');
 const Customer = require('../models/customer.model');
-const { findWithCustomer_Id } = require('../services/finding.services');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -29,7 +28,7 @@ const fileFilter = async (req, file, cb) => {
       return cb(createError(400, 'Failed to uploading file! The customer already exists'));
     }
   }
-  if (!customer) {
+  if (req.method == 'PUT' && !customer) {
     return cb(createError(400, 'Failed to uploading file! The customer does not exist'));
   }
 

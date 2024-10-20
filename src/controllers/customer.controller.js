@@ -66,7 +66,7 @@ const getCustomers = async (req, res, next) => {
       },
       name: { name: { $regex: searchRegExp } },
       shopName: { shopName: { $regex: searchRegExp } },
-      id: { customerID: { $regex: searchRegExp } },
+      customerID: { customerID: { $regex: searchRegExp } },
       nid: { nid: { $regex: searchRegExp } },
       phone: { phone: { $regex: searchRegExp } },
     };
@@ -83,7 +83,6 @@ const getCustomers = async (req, res, next) => {
         .skip((page - 1) * limit),
       Customer.countDocuments(selectedFilter),
     ]);
-    if (!customers.length) throw createError(404, 'No customers available, Please create customer!');
     // Construct pagination details
     const totalPage = Math.ceil(count / limit);
     const pagination = {
@@ -92,6 +91,17 @@ const getCustomers = async (req, res, next) => {
       previousPage: page - 1 > 0 ? page - 1 : null,
       nextPage: page + 1 <= totalPage ? page + 1 : null,
     };
+    if (!customers.length) {
+      return successResponse(res, {
+        statusCode: 404,
+        message: 'No customers available, Please create customer!',
+        payload: {
+          totalCustomer: count,
+          pagination,
+          customers,
+        },
+      });
+    }
     return successResponse(res, {
       statusCode: 200,
       message: 'Customers fetched successfully!',

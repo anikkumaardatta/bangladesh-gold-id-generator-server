@@ -29,9 +29,6 @@ const customerSchema = new Schema(
     nid: {
       type: String,
       required: [true, 'NID is required!'],
-      // unique: true,
-      // minLength: [10, 'Invalid NIDAA'],
-      // maxLength: [17, 'Invalid NIDsss'],
     },
     phone: {
       type: String,

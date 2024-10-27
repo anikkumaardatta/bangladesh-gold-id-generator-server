@@ -1,3 +1,5 @@
+public > images > customers > [customers photo]
+
 Create
 Create a customer ID:
 path: http://localhost:5000/api/customers/create-id

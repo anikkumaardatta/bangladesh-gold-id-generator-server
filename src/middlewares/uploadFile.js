@@ -16,17 +16,10 @@ const storage = multer.diskStorage({
 
 const fileFilter = async (req, file, cb) => {
   const id = req.params.id;
-  const { customerID, nid, phone } = req.body;
   const extensionName = path.extname(file.originalname);
   const customer = await Customer.findById(id);
 
   if (req.method == 'POST') {
-    const customerExists = await Customer.exists({
-      $or: [{ customerID: customerID }, { nid: nid }, { phone: phone }],
-    });
-    if (customerExists) {
-      return cb(createError(400, 'Failed to uploading file! The customer already exists'));
-    }
   }
   if (req.method == 'PUT' && !customer) {
     return cb(createError(400, 'Failed to uploading file! The customer does not exist'));

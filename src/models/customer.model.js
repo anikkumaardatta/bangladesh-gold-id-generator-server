@@ -33,8 +33,6 @@ const customerSchema = new Schema(
     phone: {
       type: String,
       required: [true, 'Phone is required!'],
-      // unique: true,
-      maxLength: [11, 'Invalid Phone'],
     },
     address: {
       type: String,

@@ -1,13 +1,15 @@
 const express = require('express');
 const app = express();
+
 const cors = require('cors');
 const morgan = require('morgan');
-const createError = require('http-errors');
 const xssClean = require('xss-clean');
+
+const createError = require('http-errors');
 const { errorResponse } = require('./controllers/response.controller');
-const customerRouter = require('./routes/customerRouter');
+
 const bodyParser = require('body-parser');
-const { status } = require('express/lib/response');
+const customerRouter = require('./routes/customerRouter');
 
 //middleware
 app.use(cors());

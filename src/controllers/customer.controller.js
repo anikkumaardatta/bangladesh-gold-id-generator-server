@@ -17,13 +17,6 @@ const createCustomerId = async (req, res, next) => {
     }
     const imageUrl = `/images/customers/${image.filename}`;
 
-    const customerExists = await Customer.exists({
-      $or: [{ customerID: customerID }, { nid: nid }, { phone: phone }],
-    });
-    if (customerExists) {
-      throw createError(409, 'Customer already exists');
-    }
-
     const newCustomer = {
       name,
       shopName,
@@ -76,7 +69,7 @@ const getCustomers = async (req, res, next) => {
     const [customers, count] = await Promise.all([
       Customer.find(selectedFilter)
 
-        // .sort({ customerID: 1 })
+        .sort({ customerID: 1 })
         .collation({ locale: 'en_US', numericOrdering: true })
 
         .limit(limit)
